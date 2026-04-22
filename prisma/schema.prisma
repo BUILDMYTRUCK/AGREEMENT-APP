@@ -1,0 +1,28 @@
+// Service Agreement database schema
+// Stores signed customer service agreements for legal retrieval.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Contract {
+  id              String   @id @default(cuid())
+  customerName    String
+  companyName     String?
+  vehicleMakeModel String
+  agreementText   String
+  signatureDataUrl String
+  signedAt        DateTime @default(now())
+  signerIp        String?
+  signerUserAgent String?
+  pdfBytes        Bytes?
+  createdAt       DateTime @default(now())
+
+  @@index([signedAt])
+  @@index([customerName])
+}
